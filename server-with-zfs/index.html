@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Server With Zfs</title>
+  <meta property="og:title" content="Server With Zfs" />
+  <meta name="twitter:title" content="Server With Zfs" />
+  <meta name="description" content="You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+ I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+ I am going to use ubuntu 16.04 since it have a native zfs binary.
+ First login on digital-ocean server via openssh via root like this:">
+  <meta property="og:description" content="You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+ I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+ I am going to use ubuntu 16.04 since it have a native zfs binary.
+ First login on digital-ocean server via openssh via root like this:">
+  <meta name="twitter:description" content="You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+ I am going to sett up a Digitalocean vps with docker and …">
+  <meta name="author" content="Eirik Habbestad Helleve"/>
+  <link href='https://username.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://username.github.io/img/avatar-icon.png" />
+  <meta name="twitter:image" content="https://username.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@habbis0" />
+  <meta name="twitter:creator" content="@habbis0" />
+  <meta property="og:url" content="https://username.github.io/server-with-zfs/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eirik&#39;s Tech Blog" />
+
+  <meta name="generator" content="Hugo 0.40.3" />
+  <link rel="canonical" href="https://username.github.io/server-with-zfs/" />
+  <link rel="alternate" href="https://username.github.io/index.xml" type="application/rss+xml" title="Eirik&#39;s Tech Blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://username.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://username.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://username.github.io/css/codeblock.css" />
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://username.github.io">Eirik&#39;s Tech Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Eirik&#39;s Tech Blog" href="https://username.github.io">
+            <img class="avatar-img" src="https://username.github.io/img/avatar-icon.png" alt="Eirik&#39;s Tech Blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="page-heading">
+              <h1>Server With Zfs</h1>
+                
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <ul>
+<li><p>You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.</p></li>
+
+<li><p>I am going to sett up a <a href="https://www.digitalocean.com/">Digitalocean</a> vps with
+docker and testing out zfs as <a href="https://docs.docker.com/storage/storagedriver/zfs-driver/">docker</a> storage driver.</p></li>
+
+<li><p>I am going to use ubuntu 16.04 since it have a native zfs binary.</p></li>
+
+<li><p>First login on digital-ocean server via <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">openssh</a> via root like this:</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">ssh root@yourip</pre></div>
+<ul>
+<li><p>Then add a user and on ubuntu you can use two diffrent commands.
+in these exampels I am going to create a use called youruser.</p></li>
+
+<li><p>Eksample one adduser is a more userfriendly way
+you do not need to add flags but if you need read the manpage.</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">adduser youruser</pre></div>
+<ul>
+<li><p>Eksample two is useradd and this command is sipported on all linux distros
+and the flags shall be the same. But on the other unix-like opertingsystem
+freebsd, smartos the flags is diffrent in my experience.</p></li>
+
+<li><p>Here is with the short flags. I like to use useradd with scripts since
+it is non interactive and therfor eayser to automate.</p>
+<div class="highlight"><pre class="chroma">useradd -m -s /bin/bash youruser
+useradd --create-home --shell /bin/bash youruser</pre></div></li>
+
+<li><p>To remove user and home directory use this command</p>
+<div class="highlight"><pre class="chroma">userdel -r youruser
+userdel --remove youruser</pre></div></li>
+
+<li><p>Then I use usermod utillity to modify user accouts.
+Inn this example i am going to add a user to the sudo group.</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">usermod -a -G sudo youruser
+usermod --append --groups sudo youruser</pre></div>
+<ul>
+<li><p>In ubuntu the sudo group is called sudo but in other unix like os it
+often called wheel.The best way enable sudo in a unix like
+os use the command visudo.</p></li>
+
+<li><p>Here in this exsample sudo is neabled beacuse you see %sudo
+if was disabled you will se #%sudo.</p></li>
+</ul>
+<div class="highlight"><pre class="chroma"># User privilege specification
+root    ALL=(ALL:ALL) ALL
+
+# Members of the admin group may gain root privileges
+%admin ALL=(ALL) ALL
+
+# Allow members of group sudo to execute any command
+%sudo   ALL=(ALL:ALL) ALL
+
+# See sudoers(5) for more information on &#34;#include&#34; directives:
+
+#includedir /etc/sudoers.d</pre></div>
+<ul>
+<li><p>Then after setting up the users on the system then we are going to set up
+the ssh-keys for the user youruser. Since we have allready setup ssh-keys
+via digital-ocean the root user directory allready have the nessescary keys
+installed.</p></li>
+
+<li><p>So on a system the ssh-key are stored in the.ssh directory on each user that
+you can ssh into ofcourse.Since root only have ssh-key here then in the dir
+/root/.ssh are the keys. The ssh-keys are always in openssh
+stored in a file called authorized_keys in the.ssh directory.</p></li>
+
+<li><p>Then i recommend copying the.ssh dir with alle files to the home folder to
+/home/youruser/. So i use this command and remmember there is always the
+alternativ command.</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">cp -r /root/.ssh /home/youruser/</pre></div>
+<ul>
+<li>After you have done that then i like to make user the right permission is one
+the files and foler in .ssh. Sometimes i have failed to login to new user since
+the owner of the folder .ssh is root so i set it to the user youruser with this
+commmand.</li>
+</ul>
+<div class="highlight"><pre class="chroma">chown habbis:habbis /home/youruser/.ssh
+
+# Then ls -al the see who owns the folder
+drwx------ 2 youruser youruser 4096 Mar 14 10:14 .ssh</pre></div>
+<ul>
+<li>It is the best practice to have only root user can delete,read,write,execute
+with the .ssh folder on all users on a system. So we set the permissions with
+this commamnd.</li>
+</ul>
+<div class="highlight"><pre class="chroma">chmod 700 /home/youruser/.ssh
+# the ls -al to see
+drwx------ 2 youruser youruser 4096 Mar 14 10:14 .ssh
+# And it shall not look like this
+drw-rw-rw- 2 youruser youruser 4096 Mar 14 10:14 .ssh</pre></div>
+<ul>
+<li>And on the authorized_keys file use the same command but here
+root read,write and user read and other read.And i set the owner of
+the authorized_keys to root:root. So it is going to look like this</li>
+</ul>
+<div class="highlight"><pre class="chroma">chmod 644 /home/youruser/.ssh/authorized_keys
+# then ls -al to see
+-rw-r--r-- 1 root   root    762 Mar 14 10:14 authorized_keys</pre></div>
+<ul>
+<li><p>After setting up ssh then we need to start the firewall
+and on ubuntu you have foure options as i know of but all
+of then is based on iptables and they are <a href="https://firehol.org/">firehol</a>
+, <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04">ufw</a> and plain old <a href="https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands">iptables</a>.</p></li>
+
+<li><p>I am goint to use ufw and i am just going to show some of the commands to get
+started.</p></li>
+
+<li><p>We are going for the standard way deny incoming
+and allow outgoing. And allow ssh so you can connect to
+the server and do not start the firewall before you have
+allowed ssh connection so you do not to lock yourself out of
+the server.</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">ufw default deny incoming
+ufw default allow outgoing
+
+# then allow ssh or port
+ufw allow ssh
+uwf allow 22
+
+# to deny port or service or ipadress
+ufw deny yourting
+
+# to start
+ufw enable
+
+# to see status
+ufw status or ufw status verbose</pre></div>
+
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <ul class="list-inline footer-links">
+                
+
+
+<li>
+    <a href="//twitter.com/share?url=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f&amp;text=Server%20With%20Zfs&amp;via=habbis0"
+       target="_blank" alt="" title="Share on Twitter">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//plus.google.com/share?url=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f" target="_blank" title="Share on Google Plus">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f" target="_blank" title="Share on Facebook">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//reddit.com/submit?url=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f&amp;title=Server%20With%20Zfs" target="_blank" title="Share on Reddit">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f&amp;title=Server%20With%20Zfs" target="_blank"
+       title="Share on LinkedIn">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f&amp;title=Server%20With%20Zfs" target="_blank"
+       title="Share on StumbleUpon">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stumbleupon fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fusername.github.io%2fserver-with-zfs%2f&amp;description=Server%20With%20Zfs" target="_blank"
+       title="Share on Pinterest">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-pinterest fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+              </ul>
+            </section>
+        
+      </article>
+
+      
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:habbis@medmail.ch" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/habbis00" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/habbis" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/habbis0" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="https://username.github.io/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Eirik Habbestad Helleve
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://username.github.io">Eirik&#39;s Tech Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.40.3</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://username.github.io/js/main.js"></script>
+<script src="https://username.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://username.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
+

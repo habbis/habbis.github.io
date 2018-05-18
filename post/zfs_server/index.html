@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Setup a server with zfs and docker</title>
+  <meta property="og:title" content="Setup a server with zfs and docker" />
+  <meta name="twitter:title" content="Setup a server with zfs and docker" />
+  <meta name="description" content="Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+I am going to use ubuntu 16.">
+  <meta property="og:description" content="Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+I am going to use ubuntu 16.">
+  <meta name="twitter:description" content="Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other …">
+  <meta name="author" content="Eirik Habbestad Helleve"/>
+  <link href='https://username.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://username.github.io/img/avatar-icon.png" />
+  <meta name="twitter:image" content="https://username.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@habbis0" />
+  <meta name="twitter:creator" content="@habbis0" />
+  <meta property="og:url" content="https://username.github.io/post/zfs_server/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eirik&#39;s Tech Blog" />
+
+  <meta name="generator" content="Hugo 0.40.3" />
+  <link rel="canonical" href="https://username.github.io/post/zfs_server/" />
+  <link rel="alternate" href="https://username.github.io/index.xml" type="application/rss+xml" title="Eirik&#39;s Tech Blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://username.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://username.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://username.github.io/css/codeblock.css" />
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://username.github.io">Eirik&#39;s Tech Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Eirik&#39;s Tech Blog" href="https://username.github.io">
+            <img class="avatar-img" src="https://username.github.io/img/avatar-icon.png" alt="Eirik&#39;s Tech Blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Setup a server with zfs and docker</h1>
+                
+                
+                  <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on May 18, 2018
+  
+  
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i> 8 minutes (1631 words)
+  
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h1 id="testing-zfs-with-docker">Testing zfs with docker</h1>
+
+<h4 id="table-of-content">Table of content</h4>
+
+<ol>
+<li><a href="#Testing zfs with docker">Testing zfs with docker</a></li>
+</ol>
+
+<p>You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.</p>
+
+<p>I am going to sett up a <a href="https://www.digitalocean.com/">Digitalocean</a> vps with docker and testing out zfs as <a href="https://docs.docker.com/storage/storagedriver/zfs-driver/">docker</a> storage driver.</p>
+
+<p>I am going to use ubuntu 16.04 since it have a native zfs binary.</p>
+
+<p>First login on digital-ocean server via <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">openssh</a> via root like this:</p>
+<div class="highlight"><pre class="chroma">    ssh root@yourip</pre></div>
+<ul>
+<li>Then add a user and on ubuntu you can use two diffrent commands. in these exampels I am going to create a use called youruser. Eksample one adduser is a more user friendly way you do not need to add flags but if you need read the manpage.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    adduser youruser</pre></div>
+<ul>
+<li>Example two is user add and this command is  on all Linux distros and the flags will be the same. But on the other unix-like freebsd or smartos the flags is different in my experience.
+Here is with the short flags. I like to use user add with scripts since it is non interactive and therefor easier to automate.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    useradd -m -s /bin/bash youruser
+    useradd --create-home --shell /bin/bash youruser</pre></div>
+<ul>
+<li>To remove user and home directory use this command</li>
+</ul>
+<div class="highlight"><pre class="chroma">    userdel -r youruser
+    userdel --remove youruser</pre></div>
+<ul>
+<li>Then I use usermod utillity to change user accouts. Inn this example i am going to add a user to the sudo group.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    usermod -a -G sudo youruser
+    usermod --append --groups sudo youruser</pre></div>
+<ul>
+<li>Then I use usermod utillity to change user accouts. Inn this example i am going to add a user to the sudo group. Here in this example sudo is enabled because you see the %sudo.  If it&rsquo;s disabled you will se #%sudo.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    # User privilege specification
+    root    ALL=(ALL:ALL) ALL
+
+    # Members of the admin group may gain root privileges
+    %admin ALL=(ALL) ALL
+
+    # Allow members of group sudo to execute any command
+    %sudo   ALL=(ALL:ALL) ALL
+
+    # See sudoers(5) for more information on &#34;#include&#34; directives:
+
+    #includedir /etc/sudoers.d</pre></div>
+<ul>
+<li>Then after setting up the users on the system then we are going to set up the ssh-keys for the user youruser. Then since we have already setup ssh-keys via digital-ocean. The root user directory already have the necessary keys installed. So on a system the ssh-key is inside the .ssh directory on each user that you allow somebody to ssh into. So root only have ssh-key here then in the dir /root/.ssh are the keys. In openssh the keys is in the file called authorized_keys in the .ssh directory. Then I recommend copying the .ssh dir with all files to the home folder to /home/youruser/.  So I use this command and remember there is always the alternative command.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    cp -r /root/.ssh /home/youruser/</pre></div>
+<ul>
+<li>After you have done that then I like to make user the right permission is one the files and folder in .ssh. Sometimes i have failed to login to new user since the owner of the folder .ssh is root. So I set it to your user with this command.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    chown habbis:habbis /home/youruser/.ssh
+
+    # Then ls -al the see who owns the folder
+    drwx------ 2 youruser youruser 4096 Mar 14 10:14 .ssh</pre></div>
+<ul>
+<li>It is the best practice to have only root user can delete, read, write, execute with the .ssh folder on all users on a system. So we set the permissions with this command.<br /></li>
+</ul>
+<div class="highlight"><pre class="chroma">    chmod 700 /home/youruser/.ssh
+    # the ls -al to see
+    drwx------ 2 youruser youruser 4096 Mar 14 10:14 .ssh
+    # And it must not look like this
+    drw-rw-rw- 2 youruser youruser 4096 Mar 14 10:14 .ssh</pre></div>
+<ul>
+<li>And on the authorized_keys file use the same command. But here to this root read, write and user read and other read. And i set the owner of the authorized_keys to root:root. So it is going to look like this.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    chmod 644 /home/youruser/.ssh/authorized_keys
+    # then ls -al to see
+    -rw-r--r-- 1 root   root    762 Mar 14 10:14 authorized_keys</pre></div>
+<ul>
+<li><p>After setting up ssh then we need to start the firewall.  On Ubuntu, you have four options as i know of but all if them is iptables under the hood. They are <a href="https://firehol.org/">firehol</a> , <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04">ufw</a> , <a href="https://fedoraproject.org/wiki/Firewalld?rd=FirewallD">firewalld</a> and plain old <a href="https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands">iptables</a>.</p></li>
+
+<li><p>I am going to use ufw and i am going to show some commands to get started.
+We are going for the standard server way of deny incoming and allow outgoing. First allow ssh so you can connect to the server. Then do not start the firewall before you have allowed ssh. So you don&rsquo;t lock yourself out of the server.</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">    ufw default deny incoming
+    ufw default allow outgoing
+
+    # then allow ssh or port
+    ufw allow ssh
+    uwf allow 22
+
+    # to deny port or service or ipadress
+    ufw deny yourting
+
+    # to start
+    ufw enable
+
+    # to see status
+    ufw status or ufw status verbose</pre></div>
+<ul>
+<li>Now we are going setup the disks and installing zfs and <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">docker</a>.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    apt install -y git zfs-initramfs apt-transport-https ca-certificates curl software-properties-common
+
+    # then curl the docker gpg-key for ubuntu
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+    # then add the repositoru for ubuntu
+    sudo add-apt-repository \
+               &#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+                  $(lsb_release -cs) \
+                     stable&#34;
+    # Then update and install
+    apt update -y &amp;&amp; apt install -y docker-ce</pre></div>
+<ul>
+<li>Now we are going to partition the disk. I am going to use the gdiks utility but you can also use fdisk utility to partition the disk so when using the zfs on Linux I use the long disk alias. Because the sdb naming may change if you add more disks.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    # when to partition the disk the command looks like this
+    sgdisk     -n1:0:0      -t1:BF01 /dev/disk/by-id/yourdisk
+
+    # The disk alias may use looks like this and when is is partitioned it will
+    # have the -part1 in the end.
+    /dev/disk/by-id/
+     scsi-0DO_Volume_volume-fra1-02-part1</pre></div>
+<ul>
+<li><p>Now we are going to format the disk to zfs. And when making the pool the command is zfs create. We are also going set some flags when creating the zfs pool.
+The first flag is -o property=value and between argument we are going to use the -O flag to perform overlay mount see mount in zfs man pages to learn more. We are going to set ashift=12 because of physical sectors size will change in the future. On the vps this setting is not that important. Then setting atime=off because atime controls whether the access timer for files is update when they are read. Turning this off avoids producing write traffic when reading files and can result in significant performance gain. And your can learn more read the zfs man pages.</p></li>
+
+<li><p>The next flag we are going to use is compression=lz4 because it is a fast compression and also one of the default for zfs. And using compression saves disk space this is why zfs i also one of the best file system we have. Then use the flag normalization=formD because it eliminates some corner cases relating to UTF-8 filename normalization. So the next flag is setmountpoint=yourmount this flag says it all with its name. The last ting is not a flag but you set the name of the pool and set if you want to mirror or raidz the disks. </p></li>
+
+<li><p>But if you say nothing then your zfs disks will bee one big storage pool with no redundancy but. If you have only had one disk then and your still can use zfs as your file system. But you miss out some features like error repairing and you can also mirror two partition on a disk with zfs. So then you can have some cool zfs repair and redundancy features</p></li>
+</ul>
+<div class="highlight"><pre class="chroma">    # This how i all looks when we are ready to format the disks.
+    zpool create -o ashift=12 \
+          -O atime=off -O compression=lz4 -O normalization=formD \
+          -O mountpoint=/mnt/mypool  \
+          dockpool mirror \
+     /dev/disk/by-id/scsi-0DO_Volume_volume-fra1-01-part1 /dev/disk/by-id/scsi-0DO_Volume_volume-fra1-02-part1
+
+    # then to check if the pool is up use the this command.
+    zpool list
+
+    # it will look like this
+    NAME       SIZE  ALLOC   FREE  EXPANDSZ   FRAG    CAP  DEDUP  HEALTH  ALTROOT
+    dockpool  31.8G   324K  31.7G         -     0%     0%  1.00x  ONLINE  -
+
+    # to see more info use the command
+    zfs status
+
+    # the output will looke somthing like this.
+    pool: dockpool
+    state: ONLINE
+     scan: none requested
+    config:
+
+           NAME                                      STATE     READ WRITE CKSUM
+           dockpool                                  ONLINE       0     0     0
+             mirror-0                                ONLINE       0     0     0
+               scsi-0DO_Volume_volume-fra1-01-part1  ONLINE       0     0     0
+               scsi-0DO_Volume_volume-fra1-02-part1  ONLINE       0     0     0
+
+    # then we create the dataset for docker
+    zfs create dockpool /var/lib/docker</pre></div>
+<ul>
+<li>### Now when the disks are ready we are going to change default storage drive on docker to zfs.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    # First stop docker with this command
+    sytemctl stop docker
+
+    # then use this command to check status
+    systemctl status docker
+
+    # Then we are going to take backup or the docker directory.
+    # Then you have backup of your docker images.
+    cp -au /var/lib/docker /var/lib/docker/bk.docker
+
+    # Then delete all file in docker dir.
+    rm -rf /var/lib/docker/*
+
+    # Then set the mountpoint for the zfs dataset docker.
+    zfs mountpoint=/var/lib/docker dockerpool/docker</pre></div>
+<ul>
+<li>Now set zfs as a storage driver to do that create a file in the dir /etc/docker called daemon.json.</li>
+</ul>
+<div class="highlight"><pre class="chroma">    # i use vim to create the file.
+    vim /etc/docker/daemon.json
+
+    # In the file plac dish
+    {
+      &#34;storage-driver&#34;: &#34;zfs&#34;
+    }
+
+    # Then start docker again
+    systemctl start docker
+
+    # then run this
+    docke info | grep zfs
+
+    # you should see this output.
+    Storage Driver: zfs
+
+    # ubuntu and debian system you can see this errori when running docker info.
+    WARNING: No swap limit support</pre></div>
+<ul>
+<li>To remove this warning you can enable some settings and here is a link the <a href="https://docs.docker.com/install/linux/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities">docs</a></li>
+</ul>
+<div class="highlight"><pre class="chroma">    # in the /etc/defaultg/grub write this to enable the feauter realted no swap error
+    GRUB_CMDLINE_LINUX=&#34;cgroup_enable=memory swapaccount=1&#34;
+
+    # then update grub with this command.
+    update-grub</pre></div>
+<ul>
+<li>Now we are ready to use zfs with docker.</li>
+</ul>
+
+
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <ul class="list-inline footer-links">
+                
+
+
+<li>
+    <a href="//twitter.com/share?url=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f&amp;text=Setup%20a%20server%20with%20zfs%20and%20docker&amp;via=habbis0"
+       target="_blank" alt="" title="Share on Twitter">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//plus.google.com/share?url=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f" target="_blank" title="Share on Google Plus">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f" target="_blank" title="Share on Facebook">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//reddit.com/submit?url=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f&amp;title=Setup%20a%20server%20with%20zfs%20and%20docker" target="_blank" title="Share on Reddit">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f&amp;title=Setup%20a%20server%20with%20zfs%20and%20docker" target="_blank"
+       title="Share on LinkedIn">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f&amp;title=Setup%20a%20server%20with%20zfs%20and%20docker" target="_blank"
+       title="Share on StumbleUpon">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stumbleupon fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fusername.github.io%2fpost%2fzfs_server%2f&amp;description=Setup%20a%20server%20with%20zfs%20and%20docker" target="_blank"
+       title="Share on Pinterest">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-pinterest fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+              </ul>
+            </section>
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://username.github.io/post/lxd/" data-toggle="tooltip" data-placement="top" title="Lxd">&larr; Previous Post</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:habbis@medmail.ch" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/habbis00" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/habbis" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/habbis0" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="https://username.github.io/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Eirik Habbestad Helleve
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://username.github.io">Eirik&#39;s Tech Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.40.3</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://username.github.io/js/main.js"></script>
+<script src="https://username.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://username.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
+

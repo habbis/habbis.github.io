@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Lxd</title>
+  <meta property="og:title" content="Lxd" />
+  <meta name="twitter:title" content="Lxd" />
+  <meta name="description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers. It have benefits like being closer to the metal. And it behaves more like a virtual machine and for me it is easier understand concept behind it.
+Lxd is also more like Freebsd jails and the solaris zones.">
+  <meta property="og:description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers. It have benefits like being closer to the metal. And it behaves more like a virtual machine and for me it is easier understand concept behind it.
+Lxd is also more like Freebsd jails and the solaris zones.">
+  <meta name="twitter:description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers. It have …">
+  <meta name="author" content="Eirik Habbestad Helleve"/>
+  <link href='https://username.github.io/img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="https://username.github.io/img/avatar-icon.png" />
+  <meta name="twitter:image" content="https://username.github.io/img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@habbis0" />
+  <meta name="twitter:creator" content="@habbis0" />
+  <meta property="og:url" content="https://username.github.io/post/lxd/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eirik&#39;s Tech Blog" />
+
+  <meta name="generator" content="Hugo 0.40.3" />
+  <link rel="canonical" href="https://username.github.io/post/lxd/" />
+  <link rel="alternate" href="https://username.github.io/index.xml" type="application/rss+xml" title="Eirik&#39;s Tech Blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://username.github.io/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="https://username.github.io/css/highlight.min.css" /><link rel="stylesheet" href="https://username.github.io/css/codeblock.css" />
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://username.github.io">Eirik&#39;s Tech Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Eirik&#39;s Tech Blog" href="https://username.github.io">
+            <img class="avatar-img" src="https://username.github.io/img/avatar-icon.png" alt="Eirik&#39;s Tech Blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Lxd</h1>
+                
+                
+                  <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on May 14, 2018
+  
+  
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i> 3 minutes (636 words)
+  
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <p>I am now trying out LXC and LXD both are cool technologies. Lxd  it is a
+hyper-visor for lxc containers(linux containers).</p>
+
+<p>So why LXD/LXC?  That is a good question and it can have many answers.
+It have benefits like being closer to the metal. And  it behaves more like a
+virtual machine and for me it is easier understand concept behind it.<br />
+Lxd is also more like Freebsd jails and the solaris zones.</p>
+
+<p>And lxd/lxc consisting of  namspaces to isolate process. And cgroups to
+controll the resources of the  processes.</p>
+
+<p>But one may think this is a competitor to docker but in my eyes no.
+ Docker is a app containers and lxd s a system container.</p>
+
+<p>In fact you can use ubuntu,centos as system container in lxd and they will
+operate more like a virtual machine. So docker and lxd are both super cool tech
+and i use them both. I am currently trying to learn more of both container technologies.</p>
+
+<p>So how do one get started with lxd the easy way is to use ubuntu.
+But other linux distributions  also can support lxd but you must do more manual
+setup. I am gonna consentracte on using ubuntu since that is my main linux distro.</p>
+
+<p>So to install lxd to ways either use the deb binary</p>
+
+<p><code>sudo apt install -y lxd</code></p>
+
+<p>or use.</p>
+
+<p><code>snap install lxd</code></p>
+
+<p>After this use this command it the terminal with sudo permissions.</p>
+
+<p><code>sudo lxd init</code></p>
+
+<p>After thath command the setup process will begin. And i am going to show how
+ it looks like under her.</p>
+
+<p>Her i say yes it is easier  this way.
+ <code>Do you want to configure a new storage pool (yes/no) [default=yes]?</code></p>
+
+<p>Now it is time to choose the file system for storing and running containers.
+If i can i choose zfs but one can also use the default
+file system on your disk then that is dir.</p>
+
+<p><code>Name of the storage backend to use (dir or zfs) [default=dir]:</code></p>
+
+<p>If you want you can have lxd exposed over the network so you can controll it
+with other lxd client like your laptop. I am going to show it but the default
+is no so if you want type yes</p>
+
+<p><code>Would you like LXD to be available over the network (yes/no) [default=no]?</code></p>
+
+<p>There you can choose a specific ip address if you have more than one.
+The default is all.</p>
+
+<p><code>Address to bind LXD to (not including port) [default=all]:</code></p>
+
+<p>Now you can choose a port the default is port 8443 tcp.</p>
+
+<p><code>Port to bind LXD to [default=8443]:</code></p>
+
+<p>Now you can setup a password for connecting to this lxd client and choos a
+good password.</p>
+
+<p><code>Trust password for new clients:</code></p>
+
+<p>Then it is time to setup the lxd bridge so your containers can have network
+access.</p>
+
+<p><code>Do you want to configure the LXD bridge (yes/no) [default=yes?</code>
+Then it will prompt you trough setting up the ip4. And ip6 subnet for the
+containers you can mostly press enter for the default are good.</p>
+
+<p>Then you are ready to use lxd and the last message should be.</p>
+
+<p><code>LXD has been successfully configured.</code></p>
+
+<p>To show your running containers the command is.</p>
+
+<p><code>lxc list</code></p>
+
+<p>Result if no container are running.</p>
+<div class="highlight"><pre class="chroma">+------+-------+------+------+------+-----------+ 
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS |
++------+-------+------+------+------+-----------+ </pre></div>
+<p>If a container is running it looks like this.</p>
+<div class="highlight"><pre class="chroma">+------+---------+--------------------+----------------------------------------------+------------+-----------+
+| NAME |  STATE  |        IPV4        |                     IPV6                     |    TYPE    | SNAPSHOTS |
++------+---------+--------------------+----------------------------------------------+------------+-----------+
+| t1   | RUNNING | 10.196.76.9 (eth0) | fdcf:4fe8:8c3f:de07:216:3eff:fe3e:222 (eth0) | PERSISTENT | 0         |
++------+---------+--------------------+----------------------------------------------+------------+-----------+</pre></div>
+<p>To launch a container the command is.</p>
+
+<p><code>lxc launch ubuntu:16.04 yourcontainername</code></p>
+
+<p>To stop container.</p>
+
+<p><code>lxc stop yourcontainer</code></p>
+
+<p>To list images</p>
+
+<p><code>lxc image list</code></p>
+
+<p>To make a snapshot of the container.</p>
+
+<p><code>lxc snapshot youtcontainer snapshotname</code></p>
+
+<p>This is just a little and i will write more about what you can do.</p>
+
+<hr />
+
+
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <ul class="list-inline footer-links">
+                
+
+
+<li>
+    <a href="//twitter.com/share?url=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f&amp;text=Lxd&amp;via=habbis0"
+       target="_blank" alt="" title="Share on Twitter">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//plus.google.com/share?url=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f" target="_blank" title="Share on Google Plus">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f" target="_blank" title="Share on Facebook">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//reddit.com/submit?url=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f&amp;title=Lxd" target="_blank" title="Share on Reddit">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f&amp;title=Lxd" target="_blank"
+       title="Share on LinkedIn">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f&amp;title=Lxd" target="_blank"
+       title="Share on StumbleUpon">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stumbleupon fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fusername.github.io%2fpost%2flxd%2f&amp;description=Lxd" target="_blank"
+       title="Share on Pinterest">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-pinterest fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+              </ul>
+            </section>
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+          
+            <li class="next">
+              <a href="https://username.github.io/post/zfs_server/" data-toggle="tooltip" data-placement="top" title="Setup a server with zfs and docker">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:habbis@medmail.ch" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/habbis00" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/habbis" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/habbis0" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="https://username.github.io/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Eirik Habbestad Helleve
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://username.github.io">Eirik&#39;s Tech Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.40.3</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://username.github.io/js/main.js"></script>
+<script src="https://username.github.io/js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="https://username.github.io/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
+

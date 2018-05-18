@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://username.github.io/post/zfs_server/</loc>
+    <lastmod>2018-05-18T10:34:11+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://username.github.io/post/lxd/</loc>
+    <lastmod>2018-05-14T21:03:41+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://username.github.io/server-with-zfs/</loc>
+    <lastmod>2018-05-10T19:46:34+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://username.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://username.github.io/</loc>
+    <lastmod>2018-05-18T10:34:11+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://username.github.io/post/</loc>
+    <lastmod>2018-05-18T10:34:11+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://username.github.io/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
