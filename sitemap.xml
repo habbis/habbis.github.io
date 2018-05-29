@@ -3,39 +3,39 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://uname.github.io/post/zfs_server/</loc>
+    <loc>/post/zfs_server/</loc>
     <lastmod>2018-05-18T10:34:11+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://uname.github.io/post/lxd/</loc>
+    <loc>/post/lxd/</loc>
     <lastmod>2018-05-14T21:03:41+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://uname.github.io/server-with-zfs/</loc>
+    <loc>/server-with-zfs/</loc>
     <lastmod>2018-05-10T19:46:34+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://uname.github.io/categories/</loc>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://uname.github.io/</loc>
+    <loc>/</loc>
     <lastmod>2018-05-18T10:34:11+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://uname.github.io/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2018-05-18T10:34:11+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://uname.github.io/tags/</loc>
+    <loc>/tags/</loc>
     <priority>0</priority>
   </url>
   

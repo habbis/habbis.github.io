@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Eirik&#39;s Tech Blog</title>
-    <link>https://uname.github.io/post/</link>
+    <link>/post/</link>
     <description>Recent content in Posts on Eirik&#39;s Tech Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>habbis@medmail.ch (Eirik Habbestad Helleve)</managingEditor>
     <webMaster>habbis@medmail.ch (Eirik Habbestad Helleve)</webMaster>
     <lastBuildDate>Fri, 18 May 2018 10:34:11 +0200</lastBuildDate>
     
-	<atom:link href="https://uname.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Setup a server with zfs and docker</title>
-      <link>https://uname.github.io/post/zfs_server/</link>
+      <link>/post/zfs_server/</link>
       <pubDate>Fri, 18 May 2018 10:34:11 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
-      <guid>https://uname.github.io/post/zfs_server/</guid>
+      <guid>/post/zfs_server/</guid>
       <description>Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
 I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
 I am going to use ubuntu 16.</description>
@@ -25,10 +25,10 @@ I am going to use ubuntu 16.</description>
     
     <item>
       <title>Lxd</title>
-      <link>https://uname.github.io/post/lxd/</link>
+      <link>/post/lxd/</link>
       <pubDate>Mon, 14 May 2018 21:03:41 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
-      <guid>https://uname.github.io/post/lxd/</guid>
+      <guid>/post/lxd/</guid>
       <description>I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
 So why LXD/LXC? That is a good question and it can have many answers. It have benefits like being closer to the metal. And it behaves more like a virtual machine and for me it is easier understand concept behind it.
 Lxd is also more like Freebsd jails and the solaris zones.</description>
