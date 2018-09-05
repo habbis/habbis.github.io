@@ -18,10 +18,9 @@
       <pubDate>Fri, 18 May 2018 10:34:11 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
       <guid>/post/zfs_server/</guid>
-      <description>You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+      <description>Setup a server with zfs and docker You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
 I am going to set up a Digitalocean vps with docker and testing out zfs as docker storage driver.
-I am going to use Ubuntu 16.04 since it have a native zfs binary.
-First login on digital-ocean server via openssh via root like this:</description>
+I am going to use Ubuntu 16.04 since it have a native zfs binary.</description>
     </item>
     
     <item>
