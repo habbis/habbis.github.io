@@ -18,9 +18,10 @@
       <pubDate>Fri, 18 May 2018 10:34:11 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
       <guid>/post/zfs_server/</guid>
-      <description>Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
-I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
-I am going to use ubuntu 16.</description>
+      <description>You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+I am going to set up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+I am going to use Ubuntu 16.04 since it have a native zfs binary.
+First login on digital-ocean server via openssh via root like this:</description>
     </item>
     
     <item>
@@ -29,8 +30,11 @@ I am going to use ubuntu 16.</description>
       <pubDate>Mon, 14 May 2018 21:03:41 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
       <guid>/post/lxd/</guid>
-      <description>I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
-So why LXD/LXC? That is a good question and it can have many answers. It have benefits like being closer to the metal. And it behaves more like a virtual machine and for me it is easier understand concept behind it.
+      <description>I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
+hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers.
+It has benefits like being closer to the metal. And it behaves more like a
+virtual machine and for me it is easier understand concept behind it.
 Lxd is also more like Freebsd jails and the solaris zones.</description>
     </item>
     

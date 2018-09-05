@@ -8,14 +8,22 @@
   <title>Lxd</title>
   <meta property="og:title" content="Lxd" />
   <meta name="twitter:title" content="Lxd" />
-  <meta name="description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
-So why LXD/LXC? That is a good question and it can have many answers. It have benefits like being closer to the metal. And it behaves more like a virtual machine and for me it is easier understand concept behind it.
+  <meta name="description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
+hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers.
+It has benefits like being closer to the metal. And it behaves more like a
+virtual machine and for me it is easier understand concept behind it.
 Lxd is also more like Freebsd jails and the solaris zones.">
-  <meta property="og:description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
-So why LXD/LXC? That is a good question and it can have many answers. It have benefits like being closer to the metal. And it behaves more like a virtual machine and for me it is easier understand concept behind it.
+  <meta property="og:description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
+hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers.
+It has benefits like being closer to the metal. And it behaves more like a
+virtual machine and for me it is easier understand concept behind it.
 Lxd is also more like Freebsd jails and the solaris zones.">
-  <meta name="twitter:description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a hyper-visor for lxc containers(linux containers).
-So why LXD/LXC? That is a good question and it can have many answers. It have …">
+  <meta name="twitter:description" content="I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
+hyper-visor for lxc containers(linux containers).
+So why LXD/LXC? That is a good question and it can have many answers.
+It has …">
   <meta name="author" content="Eirik Habbestad Helleve"/>
   <link href='img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="img/avatar-icon.png" />
@@ -27,7 +35,7 @@ So why LXD/LXC? That is a good question and it can have many answers. It have �
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Eirik&#39;s Tech Blog" />
 
-  <meta name="generator" content="Hugo 0.41" />
+  <meta name="generator" content="Hugo 0.47.1" />
   <link rel="canonical" href="/post/lxd/" />
   <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Eirik&#39;s Tech Blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -164,7 +172,7 @@ So why LXD/LXC? That is a good question and it can have many answers. It have �
   
   
   &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i> 3 minutes (636 words)
+  <i class="fa fa-clock-o"></i> 3 minutes (630 words)
   
   
 </span>
@@ -184,97 +192,107 @@ So why LXD/LXC? That is a good question and it can have many answers. It have �
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        <p>I am now trying out LXC and LXD both are cool technologies. Lxd  it is a
-hyper-visor for lxc containers(linux containers).</p>
+        <p>I am now trying out LXC and LXD both are cool technologies. Lxd  it is a·</p>
 
-<p>So why LXD/LXC?  That is a good question and it can have many answers.
-It have benefits like being closer to the metal. And  it behaves more like a
-virtual machine and for me it is easier understand concept behind it.<br />
-Lxd is also more like Freebsd jails and the solaris zones.</p>
+<p>hyper-visor for lxc containers(linux containers).</p>
 
-<p>And lxd/lxc consisting of  namspaces to isolate process. And cgroups to
-controll the resources of the  processes.</p>
+<p>So why LXD/LXC?  That is a good question and it can have many answers.</p>
 
-<p>But one may think this is a competitor to docker but in my eyes no.
- Docker is a app containers and lxd s a system container.</p>
+<p>It has benefits like being closer to the metal. And it behaves more like a</p>
 
-<p>In fact you can use ubuntu,centos as system container in lxd and they will
-operate more like a virtual machine. So docker and lxd are both super cool tech
-and i use them both. I am currently trying to learn more of both container technologies.</p>
+<p>virtual machine and for me it is easier understand concept behind it.</p>
 
-<p>So how do one get started with lxd the easy way is to use ubuntu.
-But other linux distributions  also can support lxd but you must do more manual
-setup. I am gonna consentracte on using ubuntu since that is my main linux distro.</p>
+<p>Lxd is also more like Freebsd jails and the solaris zones.</p>
 
-<p>So to install lxd to ways either use the deb binary</p>
+<p>And lxd/lxc consisting of  namspaces to isolate process. And cgroups to·</p>
 
-<p><code>sudo apt install -y lxd</code></p>
+<p>controll the resources of the processes.</p>
 
-<p>or use.</p>
+<p>But one may think this is a competitor to docker but in my eyes no.·</p>
 
-<p><code>snap install lxd</code></p>
+<p>Docker is an app container and lxd is a system container.</p>
 
-<p>After this use this command it the terminal with sudo permissions.</p>
+<p>In fact, you can use ubuntu, centos as system container in lxd and they will·</p>
 
-<p><code>sudo lxd init</code></p>
+<p>operate more like a virtual machine. So docker and lxd are both super cool tech·</p>
 
-<p>After thath command the setup process will begin. And i am going to show how
- it looks like under her.</p>
+<p>and i use them both. I am currently trying to learn more of both container technologies.</p>
 
-<p>Her i say yes it is easier  this way.
- <code>Do you want to configure a new storage pool (yes/no) [default=yes]?</code></p>
+<p>So how do one get started with lxd the easy way is to use ubuntu.</p>
 
-<p>Now it is time to choose the file system for storing and running containers.
-If i can i choose zfs but one can also use the default
-file system on your disk then that is dir.</p>
+<p>But other Linux distributions also can support lxd but you must do more manual·</p>
 
-<p><code>Name of the storage backend to use (dir or zfs) [default=dir]:</code></p>
+<p>setup. I am going to concentrate on using ubuntu since that is my main Linux distro.</p>
 
-<p>If you want you can have lxd exposed over the network so you can controll it
-with other lxd client like your laptop. I am going to show it but the default
-is no so if you want type yes</p>
+<p>So, to install lxd to ways either use the deb binary</p>
+<div class="highlight"><pre class="chroma"><code class="language-sudo apt install -y lxd```" data-lang="sudo apt install -y lxd```">or use.
 
-<p><code>Would you like LXD to be available over the network (yes/no) [default=no]?</code></p>
+```snap install lxd```
 
-<p>There you can choose a specific ip address if you have more than one.
-The default is all.</p>
+After this use this command it the terminal with sudo permissions. 
 
-<p><code>Address to bind LXD to (not including port) [default=all]:</code></p>
+```sudo lxd init```
 
-<p>Now you can choose a port the default is port 8443 tcp.</p>
+ After that command the setup process will begin. And I am going to show how
+ it looks like under her. 
 
-<p><code>Port to bind LXD to [default=8443]:</code></p>
+Her I say yes it is easier  this way. 
+ ```Do you want to configure a new storage pool (yes/no) [default=yes]?```
 
-<p>Now you can setup a password for connecting to this lxd client and choos a
-good password.</p>
+Now it is time to choose the file system for storing and running containers. 
+If I can I choose zfs but one can also use the default 
+file system on your disk then that is dir.
 
-<p><code>Trust password for new clients:</code></p>
+```Name of the storage backend to use (dir or zfs) [default=dir]:```
 
-<p>Then it is time to setup the lxd bridge so your containers can have network
-access.</p>
+  If you want, you can have lxd exposed over the network, so you can control it·
+  with other lxd client like your laptop. I am going to show it but the default· 
+  is no so if you want type yes
 
-<p><code>Do you want to configure the LXD bridge (yes/no) [default=yes?</code>
-Then it will prompt you trough setting up the ip4. And ip6 subnet for the
-containers you can mostly press enter for the default are good.</p>
+```Would you like LXD to be available over the network (yes/no) [default=no]?```
 
-<p>Then you are ready to use lxd and the last message should be.</p>
+There you can choose a specific ip address if you have more than one. 
+The default is all. 
 
-<p><code>LXD has been successfully configured.</code></p>
+```Address to bind LXD to (not including port) [default=all]:```
 
-<p>To show your running containers the command is.</p>
+Now you can choose a port the default is port 8443 tcp.
 
-<p><code>lxc list</code></p>
+```Port to bind LXD to [default=8443]:```
 
-<p>Result if no container are running.</p>
-<div class="highlight"><pre class="chroma">+------+-------+------+------+------+-----------+ 
+Now you can setup a password for connecting to this lxd client and choos a 
+good password.
+
+```Trust password for new clients: ```
+
+Then it is time to setup the lxd bridge so your containers can have network 
+access.
+
+```Do you want to configure the LXD bridge (yes/no) [default=yes?```
+Then it will prompt you trough setting up the ip4. And ip6 subnet for the 
+containers you can mostly press enter for the default are good.
+
+Then you are ready to use lxd and the last message should be.
+
+```LXD has been successfully configured.```
+
+To show your running containers the command is. 
+
+```lxc list```
+
+Result if no container are running.</code></pre></div>
+<p>+&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+
 | NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS |
-+------+-------+------+------+------+-----------+ </pre></div>
-<p>If a container is running it looks like this.</p>
-<div class="highlight"><pre class="chroma">+------+---------+--------------------+----------------------------------------------+------------+-----------+
++&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+</p>
+<div class="highlight"><pre class="chroma">If a container is running it looks like this.</pre></div>
+<p>+&mdash;&mdash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+
 | NAME |  STATE  |        IPV4        |                     IPV6                     |    TYPE    | SNAPSHOTS |
-+------+---------+--------------------+----------------------------------------------+------------+-----------+
++&mdash;&mdash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+
 | t1   | RUNNING | 10.196.76.9 (eth0) | fdcf:4fe8:8c3f:de07:216:3eff:fe3e:222 (eth0) | PERSISTENT | 0         |
-+------+---------+--------------------+----------------------------------------------+------------+-----------+</pre></div>
++&mdash;&mdash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+</p>
+
+<p>```</p>
+
 <p>To launch a container the command is.</p>
 
 <p><code>lxc launch ubuntu:16.04 yourcontainername</code></p>
@@ -291,7 +309,7 @@ containers you can mostly press enter for the default are good.</p>
 
 <p><code>lxc snapshot youtcontainer snapshotname</code></p>
 
-<p>This is just a little and i will write more about what you can do.</p>
+<p>This is a basic setup of lxd on ubuntu 16.04.</p>
 
 <hr />
 
@@ -472,7 +490,7 @@ containers you can mostly press enter for the default are good.</p>
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.41</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.47.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>

@@ -8,13 +8,16 @@
   <title>Setup a server with zfs and docker</title>
   <meta property="og:title" content="Setup a server with zfs and docker" />
   <meta name="twitter:title" content="Setup a server with zfs and docker" />
-  <meta name="description" content="Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
-I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
-I am going to use ubuntu 16.">
-  <meta property="og:description" content="Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
-I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
-I am going to use ubuntu 16.">
-  <meta name="twitter:description" content="Testing zfs with docker Table of content  Testing zfs with docker  You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other …">
+  <meta name="description" content="You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+I am going to set up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+I am going to use Ubuntu 16.04 since it have a native zfs binary.
+First login on digital-ocean server via openssh via root like this:">
+  <meta property="og:description" content="You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+I am going to set up a Digitalocean vps with docker and testing out zfs as docker storage driver.
+I am going to use Ubuntu 16.04 since it have a native zfs binary.
+First login on digital-ocean server via openssh via root like this:">
+  <meta name="twitter:description" content="You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
+I am going to set up a Digitalocean vps with docker and testing …">
   <meta name="author" content="Eirik Habbestad Helleve"/>
   <link href='img/favicon.ico' rel='icon' type='image/x-icon'/>
   <meta property="og:image" content="img/avatar-icon.png" />
@@ -26,7 +29,7 @@ I am going to use ubuntu 16.">
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Eirik&#39;s Tech Blog" />
 
-  <meta name="generator" content="Hugo 0.41" />
+  <meta name="generator" content="Hugo 0.47.1" />
   <link rel="canonical" href="/post/zfs_server/" />
   <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Eirik&#39;s Tech Blog">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
@@ -163,7 +166,7 @@ I am going to use ubuntu 16.">
   
   
   &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i> 8 minutes (1630 words)
+  <i class="fa fa-clock-o"></i> 8 minutes (1626 words)
   
   
 </span>
@@ -183,46 +186,45 @@ I am going to use ubuntu 16.">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-        
+        <p>You are free to use this as you wish I am also using this as my own wiki to remember
+how to do stuff. I hope this can help other people.</p>
 
-<h1 id="testing-zfs-with-docker">Testing zfs with docker</h1>
+<p>I am going to set up a <a href="https://www.digitalocean.com/">Digitalocean</a> vps with
+docker and testing out zfs as <a href="https://docs.docker.com/storage/storagedriver/zfs-driver/">docker</a> storage driver.</p>
 
-<h4 id="table-of-content">Table of content</h4>
-
-<ol>
-<li><a href="#Testing zfs with docker">Testing zfs with docker</a></li>
-</ol>
-
-<p>You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.</p>
-
-<p>I am going to sett up a <a href="https://www.digitalocean.com/">Digitalocean</a> vps with docker and testing out zfs as <a href="https://docs.docker.com/storage/storagedriver/zfs-driver/">docker</a> storage driver.</p>
-
-<p>I am going to use ubuntu 16.04 since it have a native zfs binary.</p>
+<p>I am going to use Ubuntu 16.04 since it have a native zfs binary.</p>
 
 <p>First login on digital-ocean server via <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2">openssh</a> via root like this:</p>
 <div class="highlight"><pre class="chroma">    ssh root@yourip</pre></div>
 <ul>
-<li>Then add a user and on ubuntu you can use two diffrent commands. in these exampels I am going to create a use called youruser. Eksample one adduser is a more user friendly way you do not need to add flags but if you need read the manpage.</li>
+<li>Then add a user and on ubuntu you can use two different commands. in these·
+examples I am going to create a use called youruser. Example one adduser is a·
+more user-friendly way you do not need to add flags but if you need read the manpage.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    adduser youruser</pre></div>
 <ul>
-<li>Example two is user add and this command is  on all Linux distros and the flags will be the same. But on the other unix-like freebsd or smartos the flags is different in my experience.
-Here is with the short flags. I like to use user add with scripts since it is non interactive and therefor easier to automate.</li>
+<li>Example two is user add and this command is on all Linux distros and the flags·
+will be the same. But on the other UNIX-like FreeBSD or smartos the flags are different in my experience.·
+Here is with the short flags. I like to use user add with scripts since it is·
+non-interactive and therefore easier to automate.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    useradd -m -s /bin/bash youruser
     useradd --create-home --shell /bin/bash youruser</pre></div>
 <ul>
-<li>To remove user and home directory use this command</li>
+<li>To remove user and home directory use this command·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    userdel -r youruser
     userdel --remove youruser</pre></div>
 <ul>
-<li>Then I use usermod utillity to change user accouts. Inn this example i am going to add a user to the sudo group.</li>
+<li>Then I use usermod utility to change user accounts. In this example I am·
+going to add a user to the sudo group.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    usermod -a -G sudo youruser
     usermod --append --groups sudo youruser</pre></div>
 <ul>
-<li>Then I use usermod utillity to change user accouts. Inn this example i am going to add a user to the sudo group. Here in this example sudo is enabled because you see the %sudo.  If it&rsquo;s disabled you will se #%sudo.</li>
+<li>Then I use usermod utility to change user accounts. In this example i am·
+going to add a user to the sudo group. Here in this example sudo is enabled·
+because you see the %sudo.  If it&rsquo;s disabled, you will see #%sudo.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    # User privilege specification
     root    ALL=(ALL:ALL) ALL
@@ -237,18 +239,29 @@ Here is with the short flags. I like to use user add with scripts since it is no
 
     #includedir /etc/sudoers.d</pre></div>
 <ul>
-<li>Then after setting up the users on the system then we are going to set up the ssh-keys for the user youruser. Then since we have already setup ssh-keys via digital-ocean. The root user directory already have the necessary keys installed. So on a system the ssh-key is inside the .ssh directory on each user that you allow somebody to ssh into. So root only have ssh-key here then in the dir /root/.ssh are the keys. In openssh the keys is in the file called authorized_keys in the .ssh directory. Then I recommend copying the .ssh dir with all files to the home folder to /home/youruser/.  So I use this command and remember there is always the alternative command.</li>
+<li>Then after setting up the users on the system then we are going to set up the
+ssh-keys for the user youruser. Then since we have already setup ssh-keys via digital-ocean.
+The root user directory already has the necessary keys installed.
+So, on a system the ssh-key is inside the .ssh directory on each user that you allow somebody to ssh into.
+on this system  root only have ssh-key it&rsquo;s in the dir /root/.ssh .
+In openssh the keys are in the file called authorized_keys in the .ssh directory.
+Then I recommend copying the .ssh dir with all files to the home folder to /home/youruser/.
+So, I use this command and remember there is always the alternative command.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    cp -r /root/.ssh /home/youruser/</pre></div>
 <ul>
-<li>After you have done that then I like to make user the right permission is one the files and folder in .ssh. Sometimes i have failed to login to new user since the owner of the folder .ssh is root. So I set it to your user with this command.</li>
+<li>After you have done that then I like to make user the right permission is one
+the files and folder in .ssh.
+Sometimes i have failed to login to new user since the owner of the folder .ssh
+is root. So, I set it to youruser with this command.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    chown habbis:habbis /home/youruser/.ssh
 
     # Then ls -al the see who owns the folder
     drwx------ 2 youruser youruser 4096 Mar 14 10:14 .ssh</pre></div>
 <ul>
-<li>It is the best practice to have only root user can delete, read, write, execute with the .ssh folder on all users on a system. So we set the permissions with this command.<br /></li>
+<li>It is the best practice to have only root user can delete, read, write, execute with the .ssh
+folder on all users on a system. So, we set the permissions with this command.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    chmod 700 /home/youruser/.ssh
     # the ls -al to see
@@ -256,17 +269,20 @@ Here is with the short flags. I like to use user add with scripts since it is no
     # And it must not look like this
     drw-rw-rw- 2 youruser youruser 4096 Mar 14 10:14 .ssh</pre></div>
 <ul>
-<li>And on the authorized_keys file use the same command. But here to this root read, write and user read and other read. And i set the owner of the authorized_keys to root:root. So it is going to look like this.</li>
+<li>And on the authorized_keys file uses the same command. But here to this root read, write and user read,
+and another read. And i set the owner of the authorized_keys to root:root.
+So, it is going to look like this.·</li>
 </ul>
 <div class="highlight"><pre class="chroma">    chmod 644 /home/youruser/.ssh/authorized_keys
     # then ls -al to see
     -rw-r--r-- 1 root   root    762 Mar 14 10:14 authorized_keys</pre></div>
-<ul>
-<li><p>After setting up ssh then we need to start the firewall.  On Ubuntu, you have four options as i know of but all if them is iptables under the hood. They are <a href="https://firehol.org/">firehol</a> , <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04">ufw</a> , <a href="https://fedoraproject.org/wiki/Firewalld?rd=FirewallD">firewalld</a> and plain old <a href="https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands">iptables</a>.</p></li>
+<p>And on the authorized_keys file uses the same command. But here to this root read, write and user read, and another read. And i set the owner of the authorized_keys to root:root. So, it is going to look like this. They are <a href="https://firehol.org/">firehol</a> , <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04">ufw</a> , <a href="https://fedoraproject.org/wiki/Firewalld?rd=FirewallD">firewalld</a> and plain old <a href="https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands">iptables</a>.</p>
 
-<li><p>I am going to use ufw and i am going to show some commands to get started.
-We are going for the standard server way of deny incoming and allow outgoing. First allow ssh so you can connect to the server. Then do not start the firewall before you have allowed ssh. So you don&rsquo;t lock yourself out of the server.</p></li>
-</ul>
+<p>I am going to use ufw and i am going to show some commands to get started.
+We are going for the standard server way of denying incoming and allow outgoing.
+First allow ssh so you can connect to the server.
+Then do not start the firewall before you have allowed ssh.
+So, you don&rsquo;t lock yourself out of the server.</p>
 <div class="highlight"><pre class="chroma">    ufw default deny incoming
     ufw default allow outgoing
 
@@ -283,7 +299,7 @@ We are going for the standard server way of deny incoming and allow outgoing. Fi
     # to see status
     ufw status or ufw status verbose</pre></div>
 <ul>
-<li>Now we are going setup the disks and installing zfs and <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">docker</a>.</li>
+<li>Now we are going to setup the disks and installing zfs and <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">docker</a>.</li>
 </ul>
 <div class="highlight"><pre class="chroma">    apt install -y git zfs-initramfs apt-transport-https ca-certificates curl software-properties-common
 
@@ -298,7 +314,10 @@ We are going for the standard server way of deny incoming and allow outgoing. Fi
     # Then update and install
     apt update -y &amp;&amp; apt install -y docker-ce</pre></div>
 <ul>
-<li>Now we are going to partition the disk. I am going to use the gdiks utility but you can also use fdisk utility to partition the disk so when using the zfs on Linux I use the long disk alias. Because the sdb naming may change if you add more disks.</li>
+<li>Now we are going to partition the disk. I am going to use the gdiks utility,
+but you can also use fdisk utility to partition the disk so when using
+the zfs on Linux I use the long disk alias.
+Because the sdb naming may change if you add more disks.</li>
 </ul>
 <div class="highlight"><pre class="chroma">    # when to partition the disk the command looks like this
     sgdisk     -n1:0:0      -t1:BF01 /dev/disk/by-id/yourdisk
@@ -308,12 +327,32 @@ We are going for the standard server way of deny incoming and allow outgoing. Fi
     /dev/disk/by-id/
      scsi-0DO_Volume_volume-fra1-02-part1</pre></div>
 <ul>
-<li><p>Now we are going to format the disk to zfs. And when making the pool the command is zfs create. We are also going set some flags when creating the zfs pool.
-The first flag is -o property=value and between argument we are going to use the -O flag to perform overlay mount see mount in zfs man pages to learn more. We are going to set ashift=12 because of physical sectors size will change in the future. On the vps this setting is not that important. Then setting atime=off because atime controls whether the access timer for files is update when they are read. Turning this off avoids producing write traffic when reading files and can result in significant performance gain. And your can learn more read the zfs man pages.</p></li>
+<li><p>Now we are going to format the disk to zfs. And when making the pool the
+command is zfs create. We are also going set so
+me flags when creating the zfs pool.·</p></li>
 
-<li><p>The next flag we are going to use is compression=lz4 because it is a fast compression and also one of the default for zfs. And using compression saves disk space this is why zfs i also one of the best file system we have. Then use the flag normalization=formD because it eliminates some corner cases relating to UTF-8 filename normalization. So the next flag is setmountpoint=yourmount this flag says it all with its name. The last ting is not a flag but you set the name of the pool and set if you want to mirror or raidz the disks. </p></li>
+<li><p>The first flag is -o property=value and between argument we are going to use
+the -O flag to perform overlay mount see mount in zfs man pages to learn more.
+We are going to set ashift=12 because of physical sectors size will change in the future.
+On the vps this setting is not that important. Then setting atime=off because
+atime controls whether the access timer for files is update when they are read.
+Turning this off avoids producing write traffic when reading files and can
+result in significant performance gain. And you can learn more read the zfs man pages.·</p></li>
 
-<li><p>But if you say nothing then your zfs disks will bee one big storage pool with no redundancy but. If you have only had one disk then and your still can use zfs as your file system. But you miss out some features like error repairing and you can also mirror two partition on a disk with zfs. So then you can have some cool zfs repair and redundancy features</p></li>
+<li><p>The next flag we are going to use is compression=lz4 because it is a fast compression
+and also one of the defaults for zfs. And using compression saves disk space
+this is why zfs i also one of the best file systems we have. Then use the
+flag normalization=formD because it eliminates some corner cases relating
+to UTF-8 filename normalization. So, the next flag is setmountpoint=yourmount
+this flag says it all with its name. The last thing is not a flag, but you set
+the name of the pool and set if you want to mirror or raidz the disks.··</p>
+
+<ul>
+<li>But if you say nothing then your zfs disks will be one big storage pool with no redundancy but.
+If you have only had one disk, then and you still can use zfs as your file system.
+But you miss out some features like error repairing and you can also mirror two partition on a disk with zfs.
+So, then you can have some cool zfs repair and redundancy features·</li>
+</ul></li>
 </ul>
 <div class="highlight"><pre class="chroma">    # This how i all looks when we are ready to format the disks.
     zpool create -o ashift=12 \
@@ -345,34 +384,34 @@ The first flag is -o property=value and between argument we are going to use the
                scsi-0DO_Volume_volume-fra1-02-part1  ONLINE       0     0     0
 
     # then we create the dataset for docker
-    zfs create dockpool /var/lib/docker</pre></div>
+    zfs create dockpool/docker_stor </pre></div>
 <ul>
 <li>Now when the disks are ready we are going to change default storage drive on docker to zfs.</li>
 </ul>
 <div class="highlight"><pre class="chroma">    # First stop docker with this command
-    sytemctl stop docker
+    sytsemctl stop docker
 
     # then use this command to check status
     systemctl status docker
 
-    # Then we are going to take backup or the docker directory.
+    # Then we are going to take backup of the docker directory.
     # Then you have backup of your docker images.
-    cp -au /var/lib/docker /var/lib/docker/bk.docker
+    cp -au /var/lib/docker /var/lib/bk.docker
 
     # Then delete all file in docker dir.
     rm -rf /var/lib/docker/*
 
     # Then set the mountpoint for the zfs dataset docker.
-    zfs mountpoint=/var/lib/docker dockerpool/docker</pre></div>
+    zfs mountpoint=/var/lib/docker dockerpool/docker_stor</pre></div>
 <ul>
 <li>Now set zfs as a storage driver to do that create a file in the dir /etc/docker called daemon.json.</li>
 </ul>
 <div class="highlight"><pre class="chroma">    # i use vim to create the file.
     vim /etc/docker/daemon.json
 
-    # In the file plac dish
+    # In the file place this
     {
-      &#34;storage-driver&#34;: &#34;zfs&#34;
+      &#34;storage-driver&#34;: &#34;zfs&#34;
     }
 
     # Then start docker again
@@ -575,7 +614,7 @@ The first flag is -o property=value and between argument we are going to use the
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="http://gohugo.io">Hugo v0.41</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          <a href="http://gohugo.io">Hugo v0.47.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
           
         </p>
       </div>
