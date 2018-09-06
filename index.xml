@@ -37,17 +37,5 @@ virtual machine and for me it is easier understand concept behind it.
 Lxd is also more like Freebsd jails and the solaris zones.</description>
     </item>
     
-    <item>
-      <title>Server With Zfs</title>
-      <link>/server-with-zfs/</link>
-      <pubDate>Thu, 10 May 2018 19:46:34 +0200</pubDate>
-      <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
-      <guid>/server-with-zfs/</guid>
-      <description>You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
- I am going to sett up a Digitalocean vps with docker and testing out zfs as docker storage driver.
- I am going to use ubuntu 16.04 since it have a native zfs binary.
- First login on digital-ocean server via openssh via root like this:</description>
-    </item>
-    
   </channel>
 </rss>
