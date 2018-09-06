@@ -172,7 +172,7 @@ It has …">
   
   
   &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i> 3 minutes (630 words)
+  <i class="fa fa-clock-o"></i> 3 minutes (633 words)
   
   
 </span>
@@ -225,93 +225,61 @@ It has …">
 <p>setup. I am going to concentrate on using ubuntu since that is my main Linux distro.</p>
 
 <p>So, to install lxd to ways either use the deb binary</p>
-<div class="highlight"><pre class="chroma"><code class="language-sudo apt install -y lxd```" data-lang="sudo apt install -y lxd```">or use.
+<div class="highlight"><pre class="chroma">sudo apt install -y lxd</pre></div>
+<p>or use.</p>
+<div class="highlight"><pre class="chroma">snap install lxd</pre></div>
+<p>After this use this command it the terminal with sudo permissions.</p>
+<div class="highlight"><pre class="chroma">sudo lxd init</pre></div>
+<p>After that command the setup process will begin. And I am going to show how
+ it looks like under her.</p>
 
-```snap install lxd```
+<p>Her I say yes it is easier  this way.</p>
+<div class="highlight"><pre class="chroma">Do you want to configure a new storage pool (yes/no) [default=yes]?</pre></div>
+<p>Now it is time to choose the file system for storing and running containers.
+If I can I choose zfs but one can also use the default
+file system on your disk then that is dir.</p>
+<div class="highlight"><pre class="chroma">Name of the storage backend to use (dir or zfs) [default=dir]:</pre></div>
+<p>If you want, you can have lxd exposed over the network, so you can control it·
+  with other lxd client like your laptop. I am going to show it but the default·
+  is no so if you want type yes</p>
+<div class="highlight"><pre class="chroma">Would you like LXD to be available over the network (yes/no) [default=no]?</pre></div>
+<p>There you can choose a specific ip address if you have more than one.
+The default is all.</p>
+<div class="highlight"><pre class="chroma">Address to bind LXD to (not including port) [default=all]:</pre></div>
+<p>Now you can choose a port the default is port 8443 tcp.</p>
+<div class="highlight"><pre class="chroma">Port to bind LXD to [default=8443]:</pre></div>
+<p>Now you can setup a password for connecting to this lxd client and choos a
+good password.</p>
+<div class="highlight"><pre class="chroma">Trust password for new clients: </pre></div>
+<p>Then it is time to setup the lxd bridge so your containers can have network
+access.</p>
+<div class="highlight"><pre class="chroma">Do you want to configure the LXD bridge (yes/no) [default=yes?</pre></div>
+<p>Then it will prompt you trough setting up the ip4. And ip6 subnet for the
+containers you can mostly press enter for the default are good.</p>
 
-After this use this command it the terminal with sudo permissions. 
-
-```sudo lxd init```
-
- After that command the setup process will begin. And I am going to show how
- it looks like under her. 
-
-Her I say yes it is easier  this way. 
- ```Do you want to configure a new storage pool (yes/no) [default=yes]?```
-
-Now it is time to choose the file system for storing and running containers. 
-If I can I choose zfs but one can also use the default 
-file system on your disk then that is dir.
-
-```Name of the storage backend to use (dir or zfs) [default=dir]:```
-
-  If you want, you can have lxd exposed over the network, so you can control it·
-  with other lxd client like your laptop. I am going to show it but the default· 
-  is no so if you want type yes
-
-```Would you like LXD to be available over the network (yes/no) [default=no]?```
-
-There you can choose a specific ip address if you have more than one. 
-The default is all. 
-
-```Address to bind LXD to (not including port) [default=all]:```
-
-Now you can choose a port the default is port 8443 tcp.
-
-```Port to bind LXD to [default=8443]:```
-
-Now you can setup a password for connecting to this lxd client and choos a 
-good password.
-
-```Trust password for new clients: ```
-
-Then it is time to setup the lxd bridge so your containers can have network 
-access.
-
-```Do you want to configure the LXD bridge (yes/no) [default=yes?```
-Then it will prompt you trough setting up the ip4. And ip6 subnet for the 
-containers you can mostly press enter for the default are good.
-
-Then you are ready to use lxd and the last message should be.
-
-```LXD has been successfully configured.```
-
-To show your running containers the command is. 
-
-```lxc list```
-
-Result if no container are running.</code></pre></div>
-<p>+&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+
+<p>Then you are ready to use lxd and the last message should be.</p>
+<div class="highlight"><pre class="chroma">LXD has been successfully configured.</pre></div>
+<p>To show your running containers the command is.</p>
+<div class="highlight"><pre class="chroma">lxc list</pre></div>
+<p>Result if no container are running.</p>
+<div class="highlight"><pre class="chroma">+------+-------+------+------+------+-----------+ 
 | NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS |
-+&mdash;&mdash;+&mdash;&mdash;-+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+</p>
-<div class="highlight"><pre class="chroma">If a container is running it looks like this.</pre></div>
-<p>+&mdash;&mdash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+
++------+-------+------+------+------+-----------+ </pre></div>
+<p>If a container is running it looks like this.</p>
+<div class="highlight"><pre class="chroma">+------+---------+--------------------+----------------------------------------------+------------+-----------+
 | NAME |  STATE  |        IPV4        |                     IPV6                     |    TYPE    | SNAPSHOTS |
-+&mdash;&mdash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+
++------+---------+--------------------+----------------------------------------------+------------+-----------+
 | t1   | RUNNING | 10.196.76.9 (eth0) | fdcf:4fe8:8c3f:de07:216:3eff:fe3e:222 (eth0) | PERSISTENT | 0         |
-+&mdash;&mdash;+&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-+&mdash;&mdash;&mdash;&mdash;+&mdash;&mdash;&mdash;&ndash;+</p>
-
-<p>```</p>
-
++------+---------+--------------------+----------------------------------------------+------------+-----------+</pre></div>
 <p>To launch a container the command is.</p>
-
-<p><code>lxc launch ubuntu:16.04 yourcontainername</code></p>
-
+<div class="highlight"><pre class="chroma">lxc launch ubuntu:16.04 yourcontainername</pre></div>
 <p>To stop container.</p>
-
-<p><code>lxc stop yourcontainer</code></p>
-
+<div class="highlight"><pre class="chroma">lxc stop yourcontainer</pre></div>
 <p>To list images</p>
-
-<p><code>lxc image list</code></p>
-
+<div class="highlight"><pre class="chroma">lxc image list</pre></div>
 <p>To make a snapshot of the container.</p>
-
-<p><code>lxc snapshot youtcontainer snapshotname</code></p>
-
+<div class="highlight"><pre class="chroma">lxc snapshot youtcontainer snapshotname</pre></div>
 <p>This is a basic setup of lxd on ubuntu 16.04.</p>
-
-<hr />
 
 
         
