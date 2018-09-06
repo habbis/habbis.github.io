@@ -164,7 +164,7 @@ I am going to set up a …">
   
   
   &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i> 8 minutes (1633 words)
+  <i class="fa fa-clock-o"></i> 8 minutes (1623 words)
   
   
 </span>
@@ -278,7 +278,9 @@ So, it is going to look like this.·</li>
 <div class="highlight"><pre class="chroma">    chmod 644 /home/youruser/.ssh/authorized_keys
     # then ls -al to see
     -rw-r--r-- 1 root   root    762 Mar 14 10:14 authorized_keys</pre></div>
-<p>And on the authorized_keys file uses the same command. But here to this root read, write and user read, and another read. And i set the owner of the authorized_keys to root:root. So, it is going to look like this. They are <a href="https://firehol.org/">firehol</a> , <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04">ufw</a> , <a href="https://fedoraproject.org/wiki/Firewalld?rd=FirewallD">firewalld</a> and plain old <a href="https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands">iptables</a>.</p>
+<ul>
+<li>After setting up ssh then we need to start the firewall. On Ubuntu, you have four options as I know and all of them is iptables under the hood . They are <a href="https://firehol.org/">firehol</a> , <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-14-04">ufw</a> , <a href="https://fedoraproject.org/wiki/Firewalld?rd=FirewallD">firewalld</a> and plain old <a href="https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands">iptables</a>.</li>
+</ul>
 
 <p>I am going to use ufw and i am going to show some commands to get started.
 We are going for the standard server way of denying incoming and allow outgoing.
