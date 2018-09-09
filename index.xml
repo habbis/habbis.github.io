@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>habbis@medmail.ch (Eirik Habbestad Helleve)</managingEditor>
     <webMaster>habbis@medmail.ch (Eirik Habbestad Helleve)</webMaster>
-    <lastBuildDate>Fri, 18 May 2018 10:34:11 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 09 Sep 2018 17:21:49 +0200</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Setup_kvm_virt</title>
+      <link>/post/setup_kvm_virt/</link>
+      <pubDate>Sun, 09 Sep 2018 17:21:49 +0200</pubDate>
+      <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
+      <guid>/post/setup_kvm_virt/</guid>
+      <description>Linux Virtualization with KVM You are free to use this I use this blog like a wiki to write things I learn.
+Here are some other Open Source Virtualization projects but
+I am going to setup KVM.
+ KVM - Kernel-based Virtual Machine
+ Xen
+ VirtualBox
+ UML - User Mode Linux
+  Setup Linux Virtualization with KVM.
+What are KVM is a hypervisor built into the Linux Kernel and it</description>
+    </item>
     
     <item>
       <title>Setup a server with zfs and docker</title>

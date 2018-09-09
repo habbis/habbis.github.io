@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Setup_kvm_virt</title>
+  <meta property="og:title" content="Setup_kvm_virt" />
+  <meta name="twitter:title" content="Setup_kvm_virt" />
+  <meta name="description" content="Linux Virtualization with KVM You are free to use this I use this blog like a wiki to write things I learn.
+Here are some other Open Source Virtualization projects but
+I am going to setup KVM.
+ KVM - Kernel-based Virtual Machine
+ Xen
+ VirtualBox
+ UML - User Mode Linux
+  Setup Linux Virtualization with KVM.
+What are KVM is a hypervisor built into the Linux Kernel and it">
+  <meta property="og:description" content="Linux Virtualization with KVM You are free to use this I use this blog like a wiki to write things I learn.
+Here are some other Open Source Virtualization projects but
+I am going to setup KVM.
+ KVM - Kernel-based Virtual Machine
+ Xen
+ VirtualBox
+ UML - User Mode Linux
+  Setup Linux Virtualization with KVM.
+What are KVM is a hypervisor built into the Linux Kernel and it">
+  <meta name="twitter:description" content="Linux Virtualization with KVM You are free to use this I use this blog like a wiki to write things I learn.
+Here are some other Open Source Virtualization projects but
+I am going to setup KVM.
+ KVM - …">
+  <meta name="author" content="Eirik Habbestad Helleve"/>
+  <link href='img/favicon.ico' rel='icon' type='image/x-icon'/>
+  <meta property="og:image" content="img/avatar-icon.png" />
+  <meta name="twitter:image" content="img/avatar-icon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@habbis0" />
+  <meta name="twitter:creator" content="@habbis0" />
+  <meta property="og:url" content="/post/setup_kvm_virt/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eirik&#39;s Tech Blog" />
+
+  <meta name="generator" content="Hugo 0.47.1" />
+  <link rel="canonical" href="/post/setup_kvm_virt/" />
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Eirik&#39;s Tech Blog">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  <link rel="stylesheet" href="css/highlight.min.css" /><link rel="stylesheet" href="css/codeblock.css" />
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+</head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="">Eirik&#39;s Tech Blog</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Back" href="/">Back</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        
+          <a title="Eirik&#39;s Tech Blog" href="">
+            <img class="avatar-img" src="img/avatar-icon.png" alt="Eirik&#39;s Tech Blog" />
+          </a>
+        
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+
+    
+  
+  
+  
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              <h1>Setup_kvm_virt</h1>
+                
+                
+                  <span class="post-meta">
+  
+  
+  <i class="fa fa-calendar-o"></i>&nbsp;Posted on September 9, 2018
+  
+  
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i> 6 minutes (1104 words)
+  
+  
+</span>
+
+
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        
+
+<h2 id="linux-virtualization-with-kvm">Linux Virtualization with KVM</h2>
+
+<p>You are free to use this I use this blog like a wiki to write things I learn.</p>
+
+<p>Here are some other Open Source Virtualization projects but</p>
+
+<p>I am going to setup KVM.</p>
+
+<ul>
+<li><p>KVM - Kernel-based Virtual Machine</p></li>
+
+<li><p>Xen</p></li>
+
+<li><p>VirtualBox</p></li>
+
+<li><p>UML - User Mode Linux</p></li>
+</ul>
+
+<p>Setup Linux Virtualization with KVM.</p>
+
+<p>What are KVM is a hypervisor built into the Linux Kernel and it</p>
+
+<p>allows Linux desktop or server to simulate multiple piece of hardware.</p>
+
+<p>KVM uses the QEMU virtual machine format so what are the difference between QEMU and KVM. First, they are two separate software projects and QEMU is primary a</p>
+
+<p>hardware emulator. KVM is a kernel module that is used to expose hardware</p>
+
+<p>virtualization technologies such as:</p>
+
+<ul>
+<li><p>Intel VT-x or AMD SVM</p></li>
+
+<li><p>KVM then uses QEMU for the device emulation.</p></li>
+</ul>
+
+<p>When QEMU and KVM work together, KVM arbitrates access to the CPU</p>
+
+<p>and memory, while QEMU emulates hardware resources like hard disk, video card,</p>
+
+<p>USBs and more.</p>
+
+<p>Hardware Virtualization</p>
+
+<ul>
+<li><p>Full virtualization</p>
+
+<ul>
+<li><p>Complete simulation of the actual hardware to allow software,
+which typically consists of the guest machine or virtual machine.</p></li>
+
+<li><p>KVM uses full virtualization.</p></li>
+</ul></li>
+
+<li><p>Para virtualization</p>
+
+<ul>
+<li><p>The hardware environment is not simulated.</p></li>
+
+<li><p>XEN Supports this not KVM.</p></li>
+</ul></li>
+</ul>
+
+<p>Types of Hypervisors</p>
+
+<p>VMM/hypervisor is a piece of software that is responsible for monitoring</p>
+
+<p>and controlling virtual machines or guest operations systems</p>
+
+<p>Type 1 hypervisor</p>
+
+<ul>
+<li>The hypervisor runs directly on top of the hardware.
+
+<br /></li>
+</ul>
+
+<p>Type 2 hypervisor</p>
+
+<ul>
+<li>The hypervisor acts as a separate layer often on top</li>
+</ul>
+
+<p>of a base operating system.</p>
+
+<p>Libvirt</p>
+
+<p>Libvirt is a set of API libraries that sites in between the end user and the</p>
+
+<p>hypervisor</p>
+
+<p>The hypervisor could be built to use any virtualization technology such</p>
+
+<p>as KVM/QEMU, XEN, LXC, VirtualBox, VMWARE ESX, MS HyperV and</p>
+
+<p>even Parallels</p>
+
+<p>Libvirt acts as a transparent layer that can take commands from</p>
+
+<p>users modify them based on the underlying virtualization technology,</p>
+
+<p>and then executes them on the actual hypervisor</p>
+
+<p>Tools include the libvirtd daemon, API library, and command line utility</p>
+
+<p>called virsh</p>
+
+<p>Linux virtualization tips</p>
+
+<ul>
+<li>Overcommitting
+
+<br /></li>
+</ul>
+
+<p>To allocate more virtualized CPUs or virtual memory than the available</p>
+
+<p>resources on the host system provides. Overcommitting can cause risk to your host system’s stability.</p>
+
+<ul>
+<li>Thin provisioning<br />
+
+<br /></li>
+</ul>
+
+<p>Allows you to optimize the available storage space the guest virtual machines.</p>
+
+<p>Like overcommitting, but only pertains to storage, not CPU and memory and</p>
+
+<p>can also risk the system stability</p>
+
+<p>Linux Virtualization are also used in cloud solutions.</p>
+
+<ul>
+<li><p>OpenStack</p></li>
+
+<li><p>Eucalytus</p></li>
+
+<li><p>Cloudstack</p></li>
+</ul>
+
+<p>Installing Virtualization Packages</p>
+
+<p>To check for KVM support <code>lsmod | grep kvm</code></p>
+
+<p>Then check for this for AMD cpu the <code>kvm_amd</code>  and for for  <code>INTEL cpu kvm_intel</code>  so if these flags show up then we have cpu support for KVM.</p>
+
+<p>First, we install these packages, so we can use Linux virtualization.</p>
+
+<p>The package libguestfs-tool is for virt-builder and is not needed for kvm</p>
+
+<p>but is usefull and virt-manager is a gui manager for Linux virtualization and</p>
+
+<p>you can skip it for servers.</p>
+
+<p>Centos7</p>
+
+<p><code>yum install -y  qemu-kvm libvirt virt-install libguestfs-tool-c virt-manager</code></p>
+
+<p>Fedora</p>
+
+<p><code>dnf install -y qemu-kvm libvirt virt-install libguestfs-tool-c virt-manager</code></p>
+
+<p>Groupinstall for Fedora</p>
+
+<p><code>dnf install -y @virtualization</code></p>
+
+<p>Ubuntu/debian systems</p>
+
+<p><code>apt  install -y  qemu-kvm libvirt virt-install libguestfs-tools virt-manager</code></p>
+
+<p>To list your machine capabilities <code>virsh domcapabilities</code></p>
+
+<p>libvirt-based-tools to manage virtual machines</p>
+
+<p>First tool to manage virtual machines is the virsh shell</p>
+
+<p>Hers is some commands.</p>
+
+<p>To list all machines running</p>
+
+<p><code>virsh list --all</code></p>
+
+<p>This only show running virt-machines.</p>
+
+<p><code>virsh list</code></p>
+
+<p>To start a virt-machine</p>
+
+<p><code>virsh start machine</code></p>
+
+<p>It`s important to remember and check on the virtual machine what the name of the disk is called before attaching the disk-image.</p>
+
+<p>To attach a disk to a virt-machine</p>
+
+<p><code>virsh attach-disk  nameofmachine --source /path/to/disk.format --tar get namelike-vdc --persistent</code></p>
+
+<p>To stopp a virt-machine.</p>
+
+<p><code>virsh shutdown yourmachine</code></p>
+
+<p>to start a virt-machine.</p>
+
+<p><code>virsh start</code></p>
+
+<p>to reboot a virt-machine.</p>
+
+<p><code>virsh reboot</code></p>
+
+<p>to pause a virt-machine.</p>
+
+<p><code>virsh suspend</code></p>
+
+<p>Since virsh is a command line tool then use</p>
+
+<p>virt-viewer to see the console or gui inside the</p>
+
+<p>virtual machine like this.</p>
+
+<p><code>virt-viewer  yourmachine</code></p>
+
+<p>Then the last tool to manage virtual machines is the gui tool</p>
+
+<p>virt-manager and it can start stop take snapshots</p>
+
+<p>add disk-images manage storage pools and create and delete network bridges.</p>
+
+<p>Virt-manager can also manage other machines hypervisor and virtual machines</p>
+
+<p>with ssh.</p>
+
+<p>Tools for managing disk-images and install virtual machine</p>
+
+<p>virt-builder creates ready to use virt-builder creates disk images for the most</p>
+
+<p>common Linux distros so you not need to install them with a iso.</p>
+
+<p>Here is a virt-builder command for more options see the manpage.</p>
+
+<p><code>virt-builder ubuntu-18.04 --root-password password:yourpassword --size 51G --format qcow2</code></p>
+
+<p>When managing disk-images you use the utility qemu-img to create new empty images like this and see the manpage for more options.</p>
+
+<p><code>qemu-img create -f yourformat diskname.format  1G</code></p>
+
+<p>To setup a virtual machine to use the disk-image you can use virt-manager or</p>
+
+<p>use the virt-install command line utility like this.</p>
+
+<p><code>virt-install --name distro --ram 1024 --vcpu=1 --network bridge=virbr0 --disk path=/path/to/disk-image.qcow2 --import</code></p>
+
+<p>Or you can have more options like when install ing with a iso.</p>
+
+<p><code>virt-install --name yourmachine --ram 1100 --disk path=/path/to/disk.format --vcpu 1 --os-type=youros --network bridge=virbr0 --graphics vnc,port=portnumber --console pty,target_type=serial --cdrom /path/to/iso</code></p>
+
+<p>The tool qemu-img can also convert a disk-image from raw to qcow2 like this.</p>
+
+<p><code>qemu-img convert -f raw -O qcow2 yourimage.img  yourimage.qcow2</code></p>
+
+<p>snapshots</p>
+
+<p>With libvirt there is internal snapshot and external snapshot</p>
+
+<p>Internal snapshot is everything inside a qcow2 fileformat.</p>
+
+<p>Internal snapshot does pause the machine, so it&rsquo;s not recommended to use on important production machines when uptime is important and internal snapshot is only for qcow2 disk-format.</p>
+
+<p>It&rsquo;s better to use them when you are having maintenance on a production</p>
+
+<p>machine.</p>
+
+<p>External snapshot is based on the concept copy on write file-system. Then a</p>
+
+<p>exsternal snapshot is read only.</p>
+
+<p>Exsternal snapshots do grow in tandem with the virtual-machines and it support all the disk-images formats in libivrt.</p>
+
+<p>To list snapshots</p>
+
+<p><code>virsh snapshot-list yourmachine</code>.</p>
+
+<p>Internal snapshot does this command.</p>
+
+<p><code>virsh snapshot-create yourmachine</code></p>
+
+<p>exsternal snapshot like this.</p>
+
+<p>virsh snapshot-create-as diskname  snap1-diskname </p>
+
+<p>&ldquo;snap1-diskname-description&rdquo; </p>
+
+<p>&ndash;diskspec hda,file=/export/vmimgs/snap2-disknameqcow2 </p>
+
+<p>&ndash;disk-only &ndash;atomic</p>
+
+<p>To revert to a snapshot, use this command.</p>
+
+<p><code>virsh snapshort-revert yourmachine --snapshotname &quot;nameofsnap&quot;</code></p>
+
+<p>Bridge Networking</p>
+
+<p>Virtual machines need networking to work so then we use bridge networking to</p>
+
+<p>allow virtual interfaces to connect to the outside network through the physical</p>
+
+<p>interface, making them appear as normal host to the rest for the network.</p>
+
+<p>When installing Linux virtualization packages, it will setup a standard bridge</p>
+
+<p>network for you called virbr0 and it&rsquo;s using NAT to allow the virtual machine</p>
+
+<p>to connect to the outside network.</p>
+
+<p>There are many tools to manage Bridge networking like.</p>
+
+<ul>
+<li><p>Brctl</p></li>
+
+<li><p>Virt-manager -&gt; Edit -&gt; Connection-Details -&gt; Virtual-Networks</p></li>
+
+<li><p>Systemd-networkd</p></li>
+
+<li><p>NetworkManager</p></li>
+</ul>
+
+<p>link to <a href="https://wiki.archlinux.org/index.php/Network_bridge">archlinux-wiki</a> site to learn more.</p>
+
+
+        
+
+        
+            <hr/>
+            <section id="social-share">
+              <ul class="list-inline footer-links">
+                
+
+
+<li>
+    <a href="//twitter.com/share?url=%2fpost%2fsetup_kvm_virt%2f&amp;text=Setup_kvm_virt&amp;via=habbis0"
+       target="_blank" alt="" title="Share on Twitter">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//plus.google.com/share?url=%2fpost%2fsetup_kvm_virt%2f" target="_blank" title="Share on Google Plus">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.facebook.com/sharer/sharer.php?u=%2fpost%2fsetup_kvm_virt%2f" target="_blank" title="Share on Facebook">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//reddit.com/submit?url=%2fpost%2fsetup_kvm_virt%2f&amp;title=Setup_kvm_virt" target="_blank" title="Share on Reddit">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-reddit fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.linkedin.com/shareArticle?url=%2fpost%2fsetup_kvm_virt%2f&amp;title=Setup_kvm_virt" target="_blank"
+       title="Share on LinkedIn">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.stumbleupon.com/submit?url=%2fpost%2fsetup_kvm_virt%2f&amp;title=Setup_kvm_virt" target="_blank"
+       title="Share on StumbleUpon">
+        <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stumbleupon fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+
+<li>
+    <a href="//www.pinterest.com/pin/create/button/?url=%2fpost%2fsetup_kvm_virt%2f&amp;description=Setup_kvm_virt" target="_blank"
+       title="Share on Pinterest">
+         <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-pinterest fa-stack-1x fa-inverse"></i>
+              </span>
+    </a>
+</li>
+
+              </ul>
+            </section>
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="/post/zfs_server/" data-toggle="tooltip" data-placement="top" title="Setup a server with zfs and docker">&larr; Previous Post</a>
+            </li>
+          
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:habbis@medmail.ch" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/habbis00" title="Facebook">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/habbis" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/habbis0" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+          <li>
+            
+            <a href="/index.xml" title="RSS">
+            
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Eirik Habbestad Helleve
+            
+          
+
+          &nbsp;&bull;&nbsp;
+          2018
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="">Eirik&#39;s Tech Blog</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="http://gohugo.io">Hugo v0.47.1</a> powered &nbsp;&bull;&nbsp; Theme by <a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a> adapted to <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+<script src="js/highlight.min.js"></script>
+<script> hljs.initHighlightingOnLoad(); </script>
+<script> $(document).ready(function() {$("pre.chroma").css("padding","0");}); </script><script> renderMathInElement(document.body); </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script>
+<script src="js/load-photoswipe.js"></script>
+
+
+
+
+
+
+  </body>
+</html>
+
