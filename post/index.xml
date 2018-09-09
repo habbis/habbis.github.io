@@ -29,7 +29,7 @@ I am going to use Ubuntu 16.04 since it have a native zfs binary.</description>
       <pubDate>Mon, 14 May 2018 21:03:41 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
       <guid>/post/lxd/</guid>
-      <description>I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
+      <description>LXD setup I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
 hyper-visor for lxc containers(linux containers).
 So why LXD/LXC? That is a good question and it can have many answers.
 It has benefits like being closer to the metal. And it behaves more like a
