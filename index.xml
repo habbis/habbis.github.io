@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Eirik&#39;s Tech Blog</title>
-    <link>/</link>
+    <link>https://habbis.github.io/</link>
     <description>Recent content on Eirik&#39;s Tech Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>habbis@medmail.ch (Eirik Habbestad Helleve)</managingEditor>
     <webMaster>habbis@medmail.ch (Eirik Habbestad Helleve)</webMaster>
     <lastBuildDate>Sun, 09 Sep 2018 17:21:49 +0200</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://habbis.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Setup Linux Virtualization with KVM</title>
-      <link>/post/setup_kvm_virt/</link>
+      <link>https://habbis.github.io/post/setup_kvm_virt/</link>
       <pubDate>Sun, 09 Sep 2018 17:21:49 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
-      <guid>/post/setup_kvm_virt/</guid>
+      <guid>https://habbis.github.io/post/setup_kvm_virt/</guid>
       <description>Linux Virtualization with KVM You are free to use this I use this blog like a wiki to write things I learn.
 Here are some other Open Source Virtualization projects.
  KVM - Kernel-based Virtual Machine
@@ -33,10 +33,10 @@ allows Linux desktop or server to simulate multiple piece of hardware.</descript
     
     <item>
       <title>Setup a server with zfs and docker</title>
-      <link>/post/zfs_server/</link>
+      <link>https://habbis.github.io/post/zfs_server/</link>
       <pubDate>Fri, 18 May 2018 10:34:11 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
-      <guid>/post/zfs_server/</guid>
+      <guid>https://habbis.github.io/post/zfs_server/</guid>
       <description>Setup a server with zfs and docker You are free to use this as you wish I am also using this as my own wiki to remember how to do stuff. I hope this can help other people.
 I am going to set up a Digitalocean vps with docker and testing out zfs as docker storage driver.
 I am going to use Ubuntu 16.04 since it have a native zfs binary.</description>
@@ -44,10 +44,10 @@ I am going to use Ubuntu 16.04 since it have a native zfs binary.</description>
     
     <item>
       <title>Lxd</title>
-      <link>/post/lxd/</link>
+      <link>https://habbis.github.io/post/lxd/</link>
       <pubDate>Mon, 14 May 2018 21:03:41 +0200</pubDate>
       <author>habbis@medmail.ch (Eirik Habbestad Helleve)</author>
-      <guid>/post/lxd/</guid>
+      <guid>https://habbis.github.io/post/lxd/</guid>
       <description>LXD setup I am now trying out LXC and LXD both are cool technologies. Lxd it is a·
 hyper-visor for lxc containers(linux containers).
 So why LXD/LXC? It has benefits like being closer to the metal. And it behaves more like a
